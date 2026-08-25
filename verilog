@@ -1,99 +1,181 @@
-Arjun-Narula
-Traffic-Light-Controller-using-Verilog
-Public
-Go to file
-t
-T
-Arjun-Narula
-Arjun-Narula
-Update README.md
-42c0fcb
- · 
-6 years ago
-Name		
-arjun.cache/wt
-Add files via upload
-6 years ago
-arjun.hw
-Add files via upload
-6 years ago
-arjun.ip_user_files
-Add files via upload
-6 years ago
-arjun.runs
-Add files via upload
-6 years ago
-arjun.sim/sim_1/behav/xsim
-Add files via upload
-6 years ago
-arjun.srcs
-Add files via upload
-6 years ago
-PROJECT WORK.pdf
-Add files via upload
-6 years ago
-README.md
-Update README.md
-6 years ago
-Verilog code
-Create Verilog code
-6 years ago
-Verilog testbench
-Create Verilog testbench
-6 years ago
-arjun.xpr
-Add files via upload
-6 years ago
-system design.png
-Add files via upload
-6 years ago
-youtube video link
-Create youtube video link
-6 years ago
-Repository files navigation
-README
-Traffic-Light-Controller-using-Verilog
-YOUTUBE VIDEO LINK -https://www.youtube.com/watch?v=Yt7no6rwCVk the project includes system design of a t intersection traffic light controller and its verilog code in vivado design suite.
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 16.07.2020 12:53:25
+// Design Name: 
+// Module Name: Traffic_Light_Controller
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
-About
-the project includes system design of a t intersection traffic light controller and its verilog code in vivado design suite.
 
-Topics
-Resources
-Readme
-Activity
-Stars
-50 stars
-Watchers
-0 watching
-Forks
-14 forks
-Report repository
-Releases
-No releases published
-Packages
-No packages published
-Contributors
-1
- (1)
-@Arjun-Narula
-Arjun-NarulaArjun Narula
-Languages
-JavaScript
-23.5%
-Verilog
-19.9%
-Tcl
-19.3%
-C
-11.6%
-HTML
-8.9%
-Batchfile
-7.9%
-Other
-8.9%
-Footer
-© 2026 GitHub, Inc.
-Footer navigation
-Term
+module Traffic_Light_Controller(
+
+
+    input clk,rst,
+    output reg [2:0]light_M1,
+    output reg [2:0]light_S,
+    output reg [2:0]light_MT,
+    output reg [2:0]light_M2
+    );
+    
+    parameter  S1=0, S2=1, S3 =2, S4=3, S5=4,S6=5;
+    reg [3:0]count;
+    reg[2:0] ps;
+    parameter  sec7=7,sec5=5,sec2=2,sec3=3;
+
+   
+    
+    always@(posedge clk or posedge rst)
+        begin
+        if(rst==1)
+        begin
+        ps<=S1;
+        count<=0;
+        end
+        else
+        
+      
+       
+            
+            case(ps)
+                S1: if(count<sec7)
+                        begin
+                        ps<=S1;
+                        count<=count+1;
+                        end
+                    else
+                        begin
+                        ps<=S2;
+                        count<=0;
+                        end
+                S2: if(count<sec2)
+                        begin
+                        ps<=S2;
+                        count<=count+1;
+                        end
+
+                    else
+                        begin
+                        ps<=S3;
+                        count<=0;
+                        end
+                S3: if(count<sec5)
+                        begin
+                        ps<=S3;
+                        count<=count+1;
+                        end
+
+                    else
+                        begin
+                        ps<=S4;
+                        count<=0;
+                        end
+                S4:if(count<sec2)
+                        begin
+                        ps<=S4;
+                        count<=count+1;
+                        end
+
+                    else
+                        begin
+                        ps<=S5;
+                        count<=0;
+                        end
+                S5:if(count<sec3)
+                        begin
+                        ps<=S5;
+                        count<=count+1;
+                        end
+
+                    else
+                        begin
+                        ps<=S6;
+                        count<=0;
+                        end
+
+                S6:if(count<sec2)
+                        begin
+                        ps<=S6;
+                        count<=count+1;
+                        end
+
+                    else
+                        begin
+                        ps<=S1;
+                        count<=0;
+                        end
+                default: ps<=S1;
+                endcase
+            end   
+
+            always@(ps)    
+            begin
+                
+                case(ps)
+                     
+                    S1:
+                    begin
+                       light_M1<=3'b001;
+                       light_M2<=3'b001;
+                       light_MT<=3'b100;
+                       light_S<=3'b100;
+                    end
+                    S2:
+                    begin 
+                       light_M1<=3'b001;
+                       light_M2<=3'b010;
+                       light_MT<=3'b100;
+                       light_S<=3'b100;
+                    end
+                    S3:
+                    begin
+                       light_M1<=3'b001;
+                       light_M2<=3'b100;
+                       light_MT<=3'b001;
+                       light_S<=3'b100;
+                    end
+                    S4:
+                    begin
+                       light_M1<=3'b010;
+                       light_M2<=3'b100;
+                       light_MT<=3'b010;
+                       light_S<=3'b100;
+                    end
+                    S5:
+                    begin
+                       light_M1<=3'b100;
+                       light_M2<=3'b100;
+                       light_MT<=3'b100;
+                       light_S<=3'b001;
+                    end
+                    S6:
+                    begin 
+                       light_M1<=3'b100;
+                       light_M2<=3'b100;
+                       light_MT<=3'b100;
+                       light_S<=3'b010;
+                    end
+                    default:
+                    begin 
+                       light_M1<=3'b000;
+                       light_M2<=3'b000;
+                       light_MT<=3'b000;
+                       light_S<=3'b000;
+                    end
+                    endcase
+            end                
+              
+
+endmodule
